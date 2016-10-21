@@ -20,8 +20,8 @@ sudo pacman -S adobe-source-code-pro-fonts adobe-source-sans-pro-fonts adobe-sou
 
 # link to configuration files
 mkdir -p ~/.config/nvim/colors
-ln -s ./Xresources ~/.Xresources
-ln -s ./nvimrc ~/.config/nvim/init.vim
+ln -s `pwd`/Xresources ~/.Xresources
+ln -s `pwd`/nvimrc ~/.config/nvim/init.vim
 
 # getting vim-plug to where it belongs
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
@@ -30,6 +30,13 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 
 # making the base16 colorschemes accualy look good in terminal and vim 
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+
+
+echo 'BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"' \
+>~/.bashrc
+
+
 
 pushd ~/.config/nvim/colors
 git clone git://github.com/chriskempson/base16-vim.git base16

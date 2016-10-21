@@ -3,14 +3,13 @@ urxvt.boldFont:         xft:Source Code Pro:bold:size=10
 
 URxvt.scrollBar: false
 URxvt.cursorBlink: true
-URxvt.geometry: 80x25
+URxvt.geometry: 128x32
 
 URxvt.saveLines: 500
 URxvt.urlLauncher: firefox
 
 
 URxvt.perl-ext-common: fullscreen
-
 URxvt.keysym.F11: perl:fullscreen:switch
 
 
