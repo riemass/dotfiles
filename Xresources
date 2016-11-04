@@ -1,5 +1,6 @@
 urxvt.font:             xft:Source Code Pro:size=10
 urxvt.boldFont:         xft:Source Code Pro:bold:size=10
+URxvt.letterSpace: 	-1
 
 URxvt.scrollBar: false
 URxvt.cursorBlink: true
@@ -9,8 +10,13 @@ URxvt.saveLines: 500
 URxvt.urlLauncher: firefox
 
 
-URxvt.perl-ext-common: fullscreen
+URxvt.perl-ext-common: fullscreen,tabbed
 URxvt.keysym.F11: perl:fullscreen:switch
+
+URxvt.tabbed.tabbar-fg: 2
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 3
+URxvt.tabbed.tab-bg: 0
 
 
 ! Base16 Railscasts
