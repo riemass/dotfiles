@@ -9,14 +9,22 @@ sudo pacman -Syu
 
 # install basic stuff
 # development tools
-sudo pacman -S gdb clang clang-tools-extra
+sudo pacman -S gdb \
+	clang \
+	clang-tools-extra \
+	qemu \
+	qemu-arch-extra \
+	neovim \
+	python-neovim \
+	python2-neovim \
+	python-pip \
+	geany \
+	rxvt-unicode \
+	adobe-source-code-pro-fonts \
+	adobe-source-sans-pro-fonts\
+	adobe-source-serif-pro-fonts 
 
-# editing tools
-sudo pacman -S neovim python-neovim python2-neovim python-pip geany rxvt-unicode 
 pip install neovim
-
-# fonts
-sudo pacman -S adobe-source-code-pro-fonts adobe-source-sans-pro-fonts adobe-source-serif-pro-fonts 
 
 # link to configuration files
 mkdir -p ~/.config/nvim/colors
@@ -34,7 +42,7 @@ git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shel
 
 echo 'BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"' \
->~/.bashrc
+>> ~/.bashrc
 
 
 
@@ -43,7 +51,3 @@ git clone git://github.com/chriskempson/base16-vim.git base16
 cp base16/colors/*.vim .
 rm -rf base16
 popd
-
-base16-bespin
-
-
