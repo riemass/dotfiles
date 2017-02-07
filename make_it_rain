@@ -26,6 +26,7 @@ sudo pacman -S gdb \
 	cmake \
 	zsh \
 	rxvt-unicode \
+  help2man \
 	adobe-source-code-pro-fonts \
 	adobe-source-sans-pro-fonts \
 	adobe-source-serif-pro-fonts 
