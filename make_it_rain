@@ -4,12 +4,12 @@
 # Manjaro linux, xfce
 # highly non-portable and system dependable
 
-# system update
+### SYSTEM UPDATE
 sudo pacman -Syu
 
-# install basic stuff
-# development tools
-sudo pacman -S gdb \
+# install basic development tools
+sudo pacman -S --noconfirm --needed
+  gdb \
 	clang \
 	clang-tools-extra \
 	qemu \
@@ -26,11 +26,14 @@ sudo pacman -S gdb \
 	cmake \
 	zsh \
 	rxvt-unicode \
-  help2man \
-	adobe-source-code-pro-fonts \
-	adobe-source-sans-pro-fonts \
-	adobe-source-serif-pro-fonts 
+  help2man
 
+  # installed via git later on
+	# adobe-source-code-pro-fonts \
+	# adobe-source-sans-pro-fonts \
+	# adobe-source-serif-pro-fonts 
+
+# GNU global from AUR
 yaourt -S global
 
 # setup pip, python and neovim 
@@ -39,16 +42,15 @@ pip install --upgrade --user pip
 pip2 install --user neovim
 pip install --user neovim
 
-# add local bin to path
-echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
-
-# link to configuration files
-mkdir -p ~/.config/nvim/colors
+# will be needed later
+mkdir ~/gitstuff
+mkdir -p ~/.config/autostart
 
 
-# get Amer files
-wget http://amer.ga:1337/amer/dotfiles/raw/wip/init.vim
-mv init.vim ~/.config/nvim/
+### NEOVIM CONFIG
+# nvim link to configuration files
+mkdir -p ~/.config/nvim/
+ln -s `pwd`/init.vim ~/.config/nvim/init.vim
 
 # getting vim-plug to where it belongs
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
@@ -59,36 +61,26 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 # cd ~/.config/nvim/plugged/YouCompleteMe/
 # ./install.sh --clang-completer --system-libclang
 
-wget http://amer.ga:1337/amer/dotfiles/raw/wip/.ycm_extra_conf.py
-mv .ycm_extra_conf.py ~/
+ln -s `pwd`/ycm_extra_conf.py ~/.ycm_extra_conf.py
 
 # making the base16 colorschemes accualy look good in terminal and vim 
-git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+git clone https://github.com/chriskempson/base16-shell.git \
+   ~/.config/base16-shell
 
+mkdir -p ~/.config/nvim/colors
 
-echo 'BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"' \
->> ~/.bashrc
+git clone git://github.com/chriskempson/base16-vim.git  \
+    ~/gitstuff/base16-vim
+cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
 
-
-
-pushd ~/.config/nvim/colors
-git clone git://github.com/chriskempson/base16-vim.git base16
-cp base16/colors/*.vim .
-rm -rf base16
-popd
-
-
-mkdir ~/gitstuff
-cd ~/gitstuff/
+### git stuff, terminal and zsh
+pushd ~/gitstuff
 git clone https://github.com/zsh-users/antigen
 git clone https://github.com/mesonbuild/meson.git
+popd
 
-cd ~
-wget http://amer.ga:1337/amer/dotfiles/raw/wip/zshrc
-mv zshrc .zshrc
+ln -s `pwd`/zshrc ~/.zshrc
+cat ./bashrc >> ~/.bashrc
 
-
-
-# ln -s `pwd`/Xresources ~/.Xresources
-# ln -s `pwd`/nvimrc ~/.config/nvim/init.vim
+cp ./kbd.desktop ~/.config/autostart
+cp ./gitconfig ~/.gitconfig
