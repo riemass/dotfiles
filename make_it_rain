@@ -5,11 +5,11 @@
 # highly non-portable and system dependable
 
 ### SYSTEM UPDATE
-sudo pacman -Syu
+sudo pacman -Syu --noconfirm --needed
 
 # install basic development tools
-sudo pacman -S --noconfirm --needed
-  gdb \
+sudo pacman -S --noconfirm --needed \
+	gdb \
 	clang \
 	clang-tools-extra \
 	qemu \
@@ -21,12 +21,11 @@ sudo pacman -S --noconfirm --needed
 	neovim \
 	python-neovim \
 	python2-neovim \
-	geany \
 	ctags \
 	cmake \
 	zsh \
 	rxvt-unicode \
-  help2man
+	help2man
 
   # installed via git later on
 	# adobe-source-code-pro-fonts \
@@ -56,6 +55,8 @@ ln -s `pwd`/init.vim ~/.config/nvim/init.vim
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+nvim -c 'PlugInstall' -c 'qa!'
+
 # better to do this manually
 # nvim
 # cd ~/.config/nvim/plugged/YouCompleteMe/
@@ -77,6 +78,7 @@ cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
 pushd ~/gitstuff
 git clone https://github.com/zsh-users/antigen
 git clone https://github.com/mesonbuild/meson.git
+git clone https://github.com/powerline/fonts
 popd
 
 ln -s `pwd`/zshrc ~/.zshrc
@@ -84,3 +86,6 @@ cat ./bashrc >> ~/.bashrc
 
 cp ./kbd.desktop ~/.config/autostart
 cp ./gitconfig ~/.gitconfig
+
+ln -s `pwd`/gitstuff/fonts `pwd`/.fonts
+chsh -s `which zsh`
