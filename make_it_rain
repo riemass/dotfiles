@@ -81,11 +81,13 @@ git clone https://github.com/mesonbuild/meson.git
 git clone https://github.com/powerline/fonts
 popd
 
+# fzf creates a .zshrc
+rm ~/.zshrc
 ln -s `pwd`/zshrc ~/.zshrc
 cat ./bashrc >> ~/.bashrc
 
 cp ./kbd.desktop ~/.config/autostart
 cp ./gitconfig ~/.gitconfig
 
-ln -s `pwd`/gitstuff/fonts `pwd`/.fonts
+ln -s `pwd`/gitstuff/fonts ~/.fonts
 chsh -s `which zsh`
