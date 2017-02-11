@@ -2,7 +2,7 @@
 
 sudo pacman -S --noconfirm --needed \
 	tlp \
-	linux44-tp_smapi \
-	linux44-acpi_call
+	tp_smapi \
+	acpi_call
 
 yaourt -S tpacpi-bat

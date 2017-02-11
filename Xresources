@@ -1,5 +1,5 @@
-urxvt.font:             xft:Source Code Pro:size=11
-urxvt.boldFont:         xft:Source Code Pro:bold:size=11
+urxvt.font:             xft:Source Code Pro for Powerline:size=11
+urxvt.boldFont:         xft:Source Code Pro for Powerline:bold:size=11
 URxvt.letterSpace: 	-1
 
 URxvt.scrollBar: false

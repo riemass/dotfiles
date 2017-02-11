@@ -84,9 +84,9 @@ popd
 # fzf creates a .zshrc
 rm ~/.zshrc
 ln -s `pwd`/zshrc ~/.zshrc
+ln -s `pwd`/Xresources ~/.Xresources
 cat ./bashrc >> ~/.bashrc
 
-cp ./kbd.desktop ~/.config/autostart
 cp ./gitconfig ~/.gitconfig
 
 ln -s `pwd`/gitstuff/fonts ~/.fonts
