@@ -136,3 +136,6 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status
 }
+
+
+exec 'setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:escape"'
