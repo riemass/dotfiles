@@ -6,9 +6,6 @@ URxvt.saveLines: 500
 URxvt.urlLauncher: firefox
 
 
-URxvt.perl-ext-common: fullscreen
-URxvt.keysym.F11: perl:fullscreen:switch
-
 Xft.lcdfilter: lcddefault
 Xft.antialias: true
 Xft.autohint: 0
@@ -17,8 +14,9 @@ Xft.hintstyle: hintslight
 Xft.rgba: rgb
 Xft.dpi: 96
 
-URxvt*font: xft:Source\ Code\ Pro\ Medium:pixelsize=13:antialias=true:hinting=true,xft:Source\ Code\ Pro\ Medium:pixelsize=13:antialias=true:hinting=true
-URxvt.boldFont:         xft:Source Code Pro for Powerline:Bold:size=12
+URxvt*font: xft:Source Code Pro for Powerline:Regular:pixelsize=13:antialias=true:hinting=true
+URxvt.boldFont: xft:Source Code Pro for Powerline:Bold:pixelsize=13:antialias=true:hinting=true
+
 !URxvt.letterSpace: 	-5
 
 ! Base16 Railscasts

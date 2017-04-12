@@ -4,9 +4,17 @@
 
 set $mod Mod4
 
+new_window pixel 1
+new_float normal
+
+gaps inner 8
+gaps outer 0
+smart_borders on
+smart_gaps on
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:Terminus 10
 
 #font pango:DejaVu Sans Mono 8
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -15,8 +23,7 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-
+bindsym $mod+Return exec miniterm
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -52,7 +59,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # toggle split orientation
-bindsym $mod+semicolon split toggle 
+bindsym $mod+semicolon split toggle;exec notify-send 'toggle split'
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -130,12 +137,13 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+bindsym $mod+i exec rofi -show run
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-}
 
-
-exec 'setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:escape"'
+exec --no-startup-id setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:escape"
+exec --no-startup-id feh --bg-fill -F ~/Downloads/wallpaper/* -z
+exec --no-startup-id "devmon --no-gui"
+exec --no-startup-id "dunst"
+exec --no-startup-id "unclutter --timeout 1"

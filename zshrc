@@ -34,6 +34,7 @@ bindkey -v '^?' backward-delete-char
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
+alias e=exit
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
