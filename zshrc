@@ -19,7 +19,10 @@ antigen bundle zsh-users/zsh-history-substring-search
 
 # Load the theme.
 
-antigen theme S1cK94/minimal minimal
+ # antigen theme S1cK94/minimal minimal
+ # antigen bundle mgee/slimline
+antigen theme fribmendes/geometry geometry
+# antigen theme subnixr/minimal minimal
 
 # Tell antigen that you're done.
 antigen apply

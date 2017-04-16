@@ -1,30 +1,31 @@
 #Basic settings
 
+
+# menu->super; muc; unclutter iz xinita; smanjit i3 gaps; border, toggle, 
+# 
+#
+
 set $mod Mod4
 floating_modifier $mod
-set $term termite
-
-#This runs the script that renews the config shortcuts:
-exec_always --no-startup-id python ~/.config/Scripts/shortcuts.py
-
-#My background is always in ~/.config/wall.png. I have a shortcut in my file manager (ranger) that will automatically move a selected file here, so I can change by background on the go.
-exec_always --no-startup-id feh --bg-scale -F ~/Downloads/wallpaper/* -z
+set $term miniterm
 
 #Remaps the caps lock button to escape
 exec --no-startup-id setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:escape"
-#Remaps the menu button (usually between the right Alt and Ctrl to super
-exec_always --no-startup-id xmodmap ~/.config/Scripts/remaps
+# Remaps the menu button (usually between the right Alt and Ctrl to super
+exec_always --no-startup-id xmodmap ~/.xmodmaprc
 #Makes the mouse invisible after a brief period
 exec --no-startup-id unclutter --timeout 1
-
+# Wallpaper
+exec_always --no-startup-id feh --bg-fill ~/Downloads/wall.jpg
 exec --no-startup-id "dunst"
 exec --no-startup-id "devmon --no-gui"
 
-#Needed for i3-gaps
+# i3-gaps
 hide_edge_borders both
-for_window [class="^.*"] border pixel 0 
-gaps inner 15 
-gaps outer 15
+for_window [class="^.*"] border pixel 2
+gaps inner 10 
+gaps outer 5
+smart_gaps on
 
 
 #MUSIC:
@@ -47,7 +48,10 @@ colors {
 	active_workspace #000000 #000000 #008080
 	urgent_workspace #8B0000 #8B0000 #000000
 	}
-	status_command ~/.config/i3/bar/bumblebee-status -m pasink pasource battery nic pacman disk datetime -p disk.path=/home datetime.format="%a, %b %d, %Y at %I:%M %p" -t kulade_standard
+	status_command ~/gitstuff/bumblebee-status/bumblebee-status -m battery datetime
+  
+  # -m pasink pasource battery nic pacman disk datetime -p disk.path=/home datetime.format="%a, %b %d, %Y at %I:%M %p" -t kulade_standard
+  
 	position top
 }
 
@@ -62,18 +66,14 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Escape		workspace prev
 bindsym $mod+Shift+Escape exec i3-msg exit
 
-bindsym $mod+Shift+BackSpace	exec sudo reboot
-
 bindsym $mod+Tab		workspace back_and_forth
 
 #bindsym $mod+asciitilde
 
 #bindsym $mod+XF86Back	
 #bindsym $mod+Shift+XF86Back	
-
 #bindsym $mod+XF86Forward
 #bindsym $mod+Shift+XF86Forward	
-#END
 
 #Letter Keys
 
@@ -81,22 +81,22 @@ bindsym $mod+q		kill
 bindsym $mod+Shift+q	kill
 
 bindsym $mod+w		exec qutebrowser
-bindsym $mod+Shift+w	exec --no-startup-id $BROWSER
+bindsym $mod+Shift+w	exec --no-startup-id firefox
 
 bindsym $mod+r 		exec $term -e ranger
 bindsym $mod+Shift+r	restart
 
 bindsym $mod+t		split toggle
-bindsym $mod+Shift+t	gaps inner current set 15; gaps outer current set 15
+bindsym $mod+Shift+t	gaps inner current set 10; gaps outer current set 5
 
 bindsym $mod+y		exec $term -e "calcurse -D $HOME/.config/calcurse/"
 bindsym $mod+Shift+y	resize shrink width 10 px or 10ppt
 
-exec --no-startup-id $term --name=dropdown -e tmux
-for_window [instance="dropdown"] floating enable;
-for_window [instance="dropdown"] move scratchpad; [instance="dropdown"] scratchpad show; move scratchpad
+# exec --no-startup-id $term --name=dropdown -e tmux
+# for_window [instance="dropdown"] floating enable;
+# for_window [instance="dropdown"] move scratchpad; [instance="dropdown"] scratchpad show; move scratchpad
 
-bindsym $mod+u		[instance="dropdown"] scratchpad show
+# bindsym $mod+u		[instance="dropdown"] scratchpad show
 bindsym $mod+Shift+u	resize shrink height 10 px or 10 ppt
 
 bindsym $mod+i 		exec $term -e htop
