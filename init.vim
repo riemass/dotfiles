@@ -48,27 +48,28 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'scrooloose/syntastic'
 Plug 'richq/vim-cmake-completion'
 Plug 'idanarye/vim-dutyl'
+
 call plug#end()
 " }}}
 " Basic Settings {{{
 syntax on
 filetype plugin indent on
 let mapleader=' '       " leader is space 
-set tabstop=2       " number of visual spaces per TAB
-set softtabstop=2   " number of spaces in tab when editing
+set tabstop=2           " number of visual spaces per TAB
+set softtabstop=2       " number of spaces in tab when editing
 set shiftwidth=2
-set expandtab       " tabs are spaces
-set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+set expandtab           " tabs are spaces
+set shiftround          " use multiple of shiftwidth when indenting with '<' and '>'
 set cursorline          " highlight current line
 set showmatch           " highlight matching [{()}]
 set modeline
-set rnu              " show line numbers
+set rnu                 " show line numbers
 set modelines=1
 set mouse=a
 set lazyredraw
-set colorcolumn=80              "Highlight the character limit
-set nowrap       "Don't wrap lines
-set linebreak    "Wrap lines at convenient points
+set colorcolumn=80      "Highlight the character limit
+set nowrap              "Don't wrap lines
+set linebreak           "Wrap lines at convenient points
 set wildignorecase
 set showtabline=2
 " Custom Functions {{{
@@ -490,9 +491,9 @@ nnoremap <leader>\ <c-w><bar> " Max width leader+|
 nnoremap <leader>= <c-w>= " Fair defaults
 " }}}
 " toggle gundo {{{
-nnoremap <leader>tU :GundoToggle<CR>
-nnoremap <leader>tN :call ToggleNumber()<CR>
-nnoremap <leader>rR :Dispatch! "rdm"<CR>
+nnoremap <leader>tU :GundoToggle<CR>          " Global undo toggle
+nnoremap <leader>tN :call ToggleNumber()<CR>  " calls to toggle number defined above
+nnoremap <leader>rR :Dispatch! "rdm"<CR>      " tpope/vim_dispach asinc build and test dispacher
 "}}}
 " edit vimrc/bashrc and load vimrc bindings {{{
 nnoremap <leader>eV :e $MYVIMRC<CR>

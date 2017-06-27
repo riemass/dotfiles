@@ -1,48 +1,33 @@
-# git clone https://github.com/zsh-users/antigen.git /home/amer/gitstuff
-source $HOME/gitstuff/antigen/antigen.zsh
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+# load zgen
+source $HOME/gitstuff/zgen/zgen.zsh
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
-antigen bundle pip
-antigen bundle command-not-found
-antigen bundle sudo 
-antigen bundle arrow 
-antigen bundle rupa/z
-antigen bundle docker
+if ! zgen saved; then 
 
+  zgen prezto editor key-bindings 'vi'
+  zgen prezto prompt theme 'sorin'
 
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-history-substring-search
+  zgen prezto
+  zgen prezto git
+  zgen prezto syntax-highlighting
+  zgen prezto history-substring-search
+  zgen prezto command-not-found
+  zgen prezto autosuggestions
+#  zgen prezto spectrum 
 
-# Load the theme.
+  zgen load zsh-users/zsh-completions
+  zgen load zsh-users/zsh-autosuggestions
+  zgen load zsh-users/zsh-syntax-highlighting
+  zgen load zsh-users/zsh-history-substring-search
+  zgen load chrissicool/zsh-256color
+  zgen load subnixr/minimal
+  zgen load rupa/z
+  zgen load djui/alias-tips
+  zgen load chrissicool/zsh-256color
 
- # antigen theme S1cK94/minimal minimal
- # antigen bundle mgee/slimline
-antigen theme fribmendes/geometry geometry
-# antigen theme subnixr/minimal minimal
+  zgen save
+fi
 
-# Tell antigen that you're done.
-antigen apply
+alias ls='ls --color=auto'
 
-ZSH_THEME="minimal"
-export PATH=$PATH:/home/samir/program1/bin:/home/samir/program1/dmd2/linux/bin64
+export PATH=$PATH:/home/samir/local_libs/bin:/home/samir/program1/bin:/home/samir/program1/dmd2/linux/bin64
 export CDPATH=$CDPATH:$HOME/gitstuff:$HOME
-
-set -o vi
-
-bindkey -v '^?' backward-delete-char
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-
-alias e=exit
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
