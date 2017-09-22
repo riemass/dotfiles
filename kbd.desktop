@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=bash -c 'sleep 2;setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:escape"'
+Exec=bash -c 'setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:escape"'
 Hidden=false
 NoDisplay=false
 Terminal=true

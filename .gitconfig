@@ -1,0 +1,7 @@
+[user]
+	name = Samir Halilcevic
+	email = samir.halilcevic@fet.ba
+[core]
+	editor = nvim
+[push]
+	default = simple
