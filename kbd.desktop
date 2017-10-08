@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=bash -c 'setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:escape"'
+Exec=bash -c 'setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:swapescape";echo 'keycode 135 = Super_R' | xmodmap -'
 Hidden=false
 NoDisplay=false
 Terminal=true

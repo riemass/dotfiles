@@ -44,6 +44,7 @@ export CDPATH=$CDPATH:$HOME/gitstuff:$HOME
 
 fix_kbd() {
   setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:swapescape,keypad:pointerkeys" 
+  echo 'keycode 135 = Super_R' | xmodmap -
 }
 
 export TERM="xterm-256color"
@@ -51,3 +52,5 @@ export TERM="xterm-256color"
 load_torch() {
   . $HOME/torch/install/bin/torch-activate
 }
+
+alias runbuildenv='bash ~/buildenv/startup/start_build_env.sh'
