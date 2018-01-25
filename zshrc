@@ -39,8 +39,8 @@ bindkey -v '^?' backward-delete-char
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-export PATH=$PATH:$HOME/custom_libs/bin:$HOME/.local/bin:$HOME/.npm/bin
-export CDPATH=$CDPATH:$HOME/gitstuff:$HOME
+export PATH=$PATH:$HOME/program1/bin:$HOME/.local/bin
+export CDPATH=$CDPATH:$HOME:$HOME/gitstuff
 
 fix_kbd() {
   setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:swapescape,keypad:pointerkeys" 
@@ -53,4 +53,5 @@ load_torch() {
   . $HOME/torch/install/bin/torch-activate
 }
 
-alias runbuildenv='bash ~/buildenv/startup/start_build_env.sh'
+# alias runbuildenv='bash ~/buildenv/startup/start_build_env.sh'
+export KEYTIMEOUT=1
