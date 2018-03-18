@@ -26,14 +26,6 @@ sudo pacman -S --noconfirm --needed \
 	rxvt-unicode \
 	help2man
 
-  # installed via git later on
-	# adobe-source-code-pro-fonts
-	# adobe-source-sans-pro-fonts 
-	# ctags
-	# global
-	# adobe-source-serif-pro-fonts 
-
-
 # setup pip, python and neovim 
 
 pip2 install --upgrade --user pip
@@ -45,6 +37,13 @@ pip install --user neovim
 mkdir ~/gitstuff
 #mkdir -p ~/.config/autostart
 
+
+#     caps-swapescape
+mkdir -p ~/.config/autostart
+cp kbd.desktop ~/.config/autostart/
+
+#     neovim
+mkdir -p ~/.config/nvim/
 
 # getting vim-plug to where it belongs
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
@@ -63,16 +62,46 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 #git clone git://github.com/chriskempson/base16-vim.git  \
     #~/gitstuff/base16-vim
 #cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
+cp init.vim ~/.config/nvim/init.vim
 
-### git stuff, terminal and zsh
+nvim -c 'PlugInstall' -c 'qa!'
+
+# making the base16 colorschemes accualy look good in terminal and vim 
+# git clone https://github.com/chriskempson/base16-shell.git \
+   # ~/.config/base16-shell
+
+# mkdir -p ~/.config/nvim/colors
+#
+# git clone git://github.com/chriskempson/base16-vim.git  \
+#     ~/gitstuff/base16-vim
+# cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
+
+
+#     gitstuff, fonts, terminal and zsh
+
+mkdir ~/gitstuff
 pushd ~/gitstuff
 git clone https://github.com/powerline/fonts
 popd
 
 # fzf creates a .zshrc
 rm ~/.zshrc
+# git clone https://github.com/mesonbuild/meson.git
+git clone https://github.com/tarjoilija/zgen
+git clone https://github.com/powerline/fonts
+popd
 
-cp ./gitconfig ~/.gitconfig
+mkdir ~/.fonts
+ln -s $HOME/gitstuff/fonts/* $HOME/.fonts/
+
+# build stuff for projects
+sudo pip install meson
+sudo pip2 install conan 
+
+# fzf from nvim creates a .zshrc
+rm ~/.zshrc
+cp zshrc ~/.zshrc
 
 ln -s `pwd`/gitstuff/fonts $(HOME)/.fonts/
+ln -s $HOME/gitstuff/fonts ~/.fonts
 chsh -s `which zsh`

@@ -1,5 +1,4 @@
 call plug#begin('~/.config/nvim/plugged')
-
   Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
   Plug 'roxma/nvim-completion-manager'
   Plug 'w0rp/ale'
@@ -16,11 +15,13 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'igankevich/mesonic'
   Plug 'octol/vim-cpp-enhanced-highlight'
   Plug 'sheerun/vim-polyglot'
+  Plug 'igankevich/mesonic'
 
   Plug 'Shougo/denite.nvim'
   Plug 'tomtom/tcomment_vim'
   Plug 'terryma/vim-multiple-cursors'
   Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp'] }
+  Plug 'rhysd/vim-clang-format'
   Plug 'ap/vim-buftabline'
 
 call plug#end()
@@ -97,8 +98,10 @@ if exists(':tnoremap')
   tnoremap <C-k> <C-\><C-n><C-w>k
   tnoremap <C-l> <C-\><C-n><C-w>l
   tnoremap <esc><esc> <C-\><C-n>
+
   tnoremap <esc><tab> <C-\><C-n>:bnext<CR>
   tnoremap <esc><bs> <C-\><C-n>:bprev<CR>
+
   tnoremap <c-l> clear<CR>
   autocmd BufWinEnter,WinEnter term://* startinsert
   autocmd BufLeave term://* stopinsert
@@ -153,6 +156,7 @@ let g:LanguageClient_serverCommands = {
 			\ 'cpp': ['clangd'],
 			\ 'go': ['go-langserver'],
 			\ 'lua': ['lua-lsp'],
+			\ 'rust': ['rustup', 'run', 'stable', 'rls'],
 			\ }
 
 " Automatically start language servers.
@@ -177,7 +181,11 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 nmap <silent> <C-v> <Plug>(ale_previous_wrap)
 nmap <silent> <C-b> <Plug>(ale_next_wrap)
 
-" ===== Snippets ====================
+"""" TODO when to use ALE and when LSP lint
+" if filereadable("compile_commands.json")
+" let g:ale_completion_enabled = 1
+
+" ===== Snippets =========
 let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-n>"
 let g:UltiSnipsJumpBackwardTrigger="<c-p>"

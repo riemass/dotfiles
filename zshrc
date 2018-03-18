@@ -54,4 +54,5 @@ load_torch() {
   . $HOME/torch/install/bin/torch-activate
 }
 
+# alias runbuildenv='bash ~/buildenv/startup/start_build_env.sh'
 export KEYTIMEOUT=1
