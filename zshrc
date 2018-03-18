@@ -10,6 +10,7 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/command-not-found
   zgen oh-my-zsh plugins/sudo
   zgen oh-my-zsh plugins/arrow
+  zgen oh-my-zsh plugins/docker
 
   # Prezto
 # zgen prezto editor key-bindings 'vi'
@@ -39,7 +40,7 @@ bindkey -v '^?' backward-delete-char
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-export PATH=$PATH:$HOME/custom_libs/bin:$HOME/.local/bin:$HOME/.npm/bin
+export PATH=$PATH:$HOME/program1/bin:$HOME/.local/bin:$HOME/.npm/bin
 export CDPATH=$CDPATH:$HOME/gitstuff:$HOME
 
 fix_kbd() {
@@ -53,4 +54,4 @@ load_torch() {
   . $HOME/torch/install/bin/torch-activate
 }
 
-alias runbuildenv='bash ~/buildenv/startup/start_build_env.sh'
+export KEYTIMEOUT=1
