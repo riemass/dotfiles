@@ -1,0 +1,12 @@
+#!/usr/bin/zsh
+
+number_of_cpus="$(cat /proc/cpuinfo | grep processor | wc -l)"
+number_of_jobs=$(( $( ninja -n | head -1 | grep -Po '(?<=\[[0-9]/)([0-9]+)(?=\])') ));
+
+removed_jobs="$(echo "$@" | sed 's/-j[0-9]\+//g')";
+echo "$removed_jobs"
+if [ $number_of_jobs -le $number_of_cpus ]; then
+  CCACHE_PREFIX="" ninja $removed_jobs
+else
+  ninja "$@"
+fi

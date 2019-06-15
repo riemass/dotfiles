@@ -7,5 +7,4 @@ rustup toolchain install nightly
 rustup update
 rustup target add wasm32-unknown-unknown --toolchain nightly
 
-rustup component add rustfmt-preview
-rustup component add rls-preview rust-analysis rust-src
+rustup component add clippy rls rust-analysis rust-src rustfmt

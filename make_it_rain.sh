@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Samir's basic configuration
 # Manjaro linux, xfce
@@ -12,22 +12,24 @@ sudo pacman -S --noconfirm --needed \
 	gdb \
 	clang \
 	clang-tools-extra \
-	qemu \
-	qemu-arch-extra \
 	python-setuptools \
 	python2-setuptools \
 	python-pip \
 	python2-pip \
+  docker \
+  yay \
+	alacritty \
+	python2-pip \
 	neovim \
 	python-neovim \
-	python2-neovim \
+	ninja \
+	nodejs \
+	npm \
+	yarn \
 	cmake \
-	zsh \
-	rxvt-unicode \
-	help2man
+	zsh
 
 # setup pip, python and neovim 
-
 pip2 install --upgrade --user pip
 pip install --upgrade --user pip
 pip2 install --user neovim
@@ -35,58 +37,45 @@ pip install --user neovim
 
 # will be needed later
 mkdir ~/gitstuff
-#mkdir -p ~/.config/autostart
-
-
-#     caps-swapescape
 mkdir -p ~/.config/autostart
-cp kbd.desktop ~/.config/autostart/
-
-#     neovim
 mkdir -p ~/.config/nvim/
 
+#  caps-swapescape
+cp kbd.desktop ~/.config/autostart/
+
+#  neovim
 # getting vim-plug to where it belongs
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-#ln -s `pwd`/init.vim ~/.config/nvim/init.vim
-
-#nvim -c 'PlugInstall' -c 'qa!'
-
 # making the base16 colorschemes accualy look good in terminal and vim 
-#git clone https://github.com/chriskempson/base16-shell.git \
-#   ~/.config/base16-shell
+if [[ -d ~/.config/base16-shell ]]; then
+	rm -rf ~/.config/base16-shell
+fi 
+if [[ -d ~/gitstuff/zgen ]]; then
+	rm -rf ~/gitstuff/zgen
+fi 
+if [[ -d ~/gitstuff/fonts ]]; then
+	rm -rf ~/gitstuff/fonts
+fi 
 
-#mkdir -p ~/.config/nvim/colors
+git clone https://github.com/chriskempson/base16-shell.git \
+   ~/.config/base16-shell
 
-#git clone git://github.com/chriskempson/base16-vim.git  \
-    #~/gitstuff/base16-vim
-#cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
-cp init.vim ~/.config/nvim/init.vim
+mkdir -p ~/.config/nvim/colors
+cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
 
-nvim -c 'PlugInstall' -c 'qa!'
+cp init.vim ~/.config/nvim/
+mkdir -p ~/.config/nvim/scripts
+cp spacetab.vim ~/.config/nvim/
+cp coc-settings.json ~/.config/nvim/scripts
+nvim -c 'PlugInstall' -c 'qa!' --headless
+nvim -c 'CocInstall coc-snippets' -c 'qa!' --headless
+nvim -c 'CocInstall coc-rls' -c 'qa!' --headless
 
-# making the base16 colorschemes accualy look good in terminal and vim 
-# git clone https://github.com/chriskempson/base16-shell.git \
-   # ~/.config/base16-shell
+cp alacritty.yml ~/.config/alacritty/alacritty.yml
 
-# mkdir -p ~/.config/nvim/colors
-#
-# git clone git://github.com/chriskempson/base16-vim.git  \
-#     ~/gitstuff/base16-vim
-# cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
-
-
-#     gitstuff, fonts, terminal and zsh
-
-mkdir ~/gitstuff
 pushd ~/gitstuff
-git clone https://github.com/powerline/fonts
-popd
-
-# fzf creates a .zshrc
-rm ~/.zshrc
-# git clone https://github.com/mesonbuild/meson.git
 git clone https://github.com/tarjoilija/zgen
 git clone https://github.com/powerline/fonts
 popd
@@ -95,13 +84,17 @@ mkdir ~/.fonts
 ln -s $HOME/gitstuff/fonts/* $HOME/.fonts/
 
 # build stuff for projects
-sudo pip install meson
-sudo pip2 install conan 
-
+sudo pip install meson 
 # fzf from nvim creates a .zshrc
 rm ~/.zshrc
 cp zshrc ~/.zshrc
 
-ln -s `pwd`/gitstuff/fonts $(HOME)/.fonts/
-ln -s $HOME/gitstuff/fonts ~/.fonts
+sudo usermod -aG docker $USER
+
+sudo systemctl enable sshd
+sudo systemctl enable docker
+sudo systemctl start sshd
+
+fc-cache
+
 chsh -s `which zsh`

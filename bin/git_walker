@@ -1,0 +1,16 @@
+#!/usr/bin/zsh
+
+for folder in *; do; 
+  if [[ ! -d "$folder" ]]; then
+    continue;
+  fi
+
+  result="$(cd "$folder" && script -q /dev/null -c 'git status' < /dev/null)";
+  if [[ $(grep -c 'Changes not staged for commit:' <<< "$result") != 0 ]] || 
+  [[ $(grep -c 'Changes to be committed:' <<< "$result") != 0 ]] || 
+  [[ $(grep -c 'Your branch is ahead of' <<< "$result") != 0 ]] ||
+  [[ $(grep -c 'nothing added to commit but untracked files present' <<< "$result") != 0 ]]; then
+    echo -e "\033[0;32m---------------\033[0;36m$folder\033[0;32m--------------------" && tput sgr0; 
+    echo "$result";
+  fi
+done
