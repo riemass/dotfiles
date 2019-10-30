@@ -9,17 +9,16 @@ call plug#begin()
 " VIM enhancements
 Plug 'justinmk/vim-sneak'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'tjdevries/coc-zsh'
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale'
 Plug 'machakann/vim-highlightedyank'
 Plug 'andymass/vim-matchup'
 Plug 'tomtom/tcomment_vim'
 Plug 'mengelbrecht/lightline-bufferline'
 
 " blingbling
-" Plug 'mhinz/vim-startify'
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-signify'
 Plug 'tveskag/nvim-blame-line'
@@ -38,7 +37,7 @@ Plug 'chriskempson/base16-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" Syntactic language support
+" Language support
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
 Plug 'godlygeek/tabular'
@@ -139,41 +138,166 @@ endif
 " Javascript
 let javaScript_fold=0
 
-" Linter
-" only lint on save
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_save = 0
-let g:ale_lint_on_enter = 0
-let g:ale_virtualtext_cursor = 1
-let g:ale_rust_rls_config = {
-	\ 'rust': {
-		\ 'all_targets': 1,
-		\ 'build_on_save': 1,
-		\ 'clippy_preference': 'on'
-	\ }
-	\ }
-let g:ale_rust_rls_toolchain = ''
-let g:ale_linters = { 'rust': ['rls'], 'cpp': ['ccls', '-init={"cacheDirectory":"' . $HOME . '/.ccls/"}'], 'c': ['ccls', '-init={"cacheDirectory":"' . $HOME . '/.ccls/"}'] }
-highlight link ALEWarningSign Todo
-highlight link ALEErrorSign WarningMsg
-highlight link ALEVirtualTextWarning Todo
-highlight link ALEVirtualTextInfo Todo
-highlight link ALEVirtualTextError WarningMsg
-highlight ALEError guibg=None
-highlight ALEWarning guibg=None
-let g:ale_sign_error = "✖"
-let g:ale_sign_warning = "⚠"
-let g:ale_sign_info = "i"
-let g:ale_sign_hint = "➤"
-
-"nnoremap <silent> K :ALEHover<CR>
-nnoremap <silent> gd :ALEGoToDefinition<CR>
+" " Linter
+" " only lint on save
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 1
+" let g:ale_lint_on_save = 0
+" let g:ale_lint_on_enter = 0
+" let g:ale_virtualtext_cursor = 1
+" let g:ale_rust_rls_config = {
+" 	\ 'rust': {
+" 		\ 'all_targets': 1,
+" 		\ 'build_on_save': 1,
+" 		\ 'clippy_preference': 'on'
+" 	\ }
+" 	\ }
+" let g:ale_rust_rls_toolchain = ''
+" let g:ale_linters = { 'rust': ['rls'], 'cpp': ['ccls', '-init={"cacheDirectory":"' . $HOME . '/.ccls/"}'], 'c': ['ccls', '-init={"cacheDirectory":"' . $HOME . '/.ccls/"}'] }
+" highlight link ALEWarningSign Todo
+" highlight link ALEErrorSign WarningMsg
+" highlight link ALEVirtualTextWarning Todo
+" highlight link ALEVirtualTextInfo Todo
+" highlight link ALEVirtualTextError WarningMsg
+" highlight ALEError guibg=None
+" highlight ALEWarning guibg=None
+" let g:ale_sign_error = "✖"
+" let g:ale_sign_warning = "⚠"
+" let g:ale_sign_info = "i"
+" let g:ale_sign_hint = "➤"
+"
+" "nnoremap <silent> K :ALEHover<CR>
+" nnoremap <silent> gd :ALEGoToDefinition<CR>
 
 " coc.nvim
-nmap <silent> <C-m> <Plug>(coc-definition)
-nmap <silent> <C-n> <Plug>(coc-references)
-nn <silent> <C-,> :call CocActionAsync('doHover')<cr>
+" nmap <silent> <C-m> <Plug>(coc-definition)
+" nmap <silent> <C-n> <Plug>(coc-references)
+" nn <silent> <C-,> :call CocActionAsync('doHover')<cr>
+"
+" if hidden is not set, TextEdit might fail.
+set hidden
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+" nmap <silent> <C-d> <Plug>(coc-range-select)
+" xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " coc-snippets
 " Use <C-j> for select text and <C-j> and <C-k> for jump to next placeholder.
@@ -204,7 +328,7 @@ let g:localvimrc_ask = 0
 
 " rust.vim
 let g:rustfmt_command = "rustfmt +nightly"
-let g:rustfmt_autosave = 1
+" let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_clip_command = 'xclip -selection clipboard'
@@ -326,11 +450,11 @@ map L $
 " Neat X clipboard integration
 " ,p will paste clipboard into buffer
 " ,c will copy entire buffer into clipboard
-noremap <leader>p :read !xsel --clipboard --output<cr>
+" noremap <leader>p :read !xsel --clipboard --output<cr>
 noremap <leader>y :w !xsel -ib<cr><cr>
 
 " <leader>s for Rg search
-noremap <leader>s :Rg
+" noremap <leader>s :Rg
 let g:fzf_layout = { 'down': '~20%' }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -350,7 +474,7 @@ endfunction
 "
 
 " Open new file adjacent to current file
-nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+" nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " No arrow keys --- force yourself to use the home row
 nnoremap <up> <nop>
@@ -372,11 +496,11 @@ nnoremap j gj
 nnoremap k gk
 
 " Jump to next/previous error
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-nmap <silent> <leader>l <Plug>(ale_lint)
+" nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" nmap <silent> <leader>l <Plug>(ale_lint)
 "/nmap <silent> <C-l> <Plug>(ale_detail)
-nmap <silent> <C-g> :close<cr>
+" nmap <silent> <C-g> :close<cr>
 
 " clang-format
 let g:clang_format#style_options = { 
@@ -391,7 +515,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " autocmd TerminalOpen * setlocal nospell nonumber nobuflisted textwidth=0 winheight=1
 
 " <leader>= reformats current tange
-nnoremap <leader>= :'<,'>RustFmtRange<cr>
+nnoremap <leader>cf :'<,'>RustFmtRange<cr>
 
 " <leader>, shows/hides hidden characters
 nnoremap <leader>, :set invlist<cr>
@@ -417,10 +541,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+inoremap <silent><expr> <CR> pumvisible() ? "\<C-y><CR>" : "\<CR>"
 
 
 " =============================================================================
