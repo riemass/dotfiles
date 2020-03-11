@@ -2,7 +2,7 @@
 
 # Samir's basic configuration
 # Manjaro linux, xfce
-# highly non-portable and system dependable
+# highly non-portable and system dependent
 
 ### SYSTEM UPDATE
 sudo pacman -Syu --noconfirm --needed
@@ -39,6 +39,7 @@ pip install --user neovim
 mkdir ~/gitstuff
 mkdir -p ~/.config/autostart
 mkdir -p ~/.config/nvim/
+mkdir -p ~/.config/nvim/colors
 
 #  caps-swapescape
 cp kbd.desktop ~/.config/autostart/
@@ -49,49 +50,37 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # making the base16 colorschemes accualy look good in terminal and vim 
-if [[ -d ~/.config/base16-shell ]]; then
-	rm -rf ~/.config/base16-shell
+if [ ! -d ~/.config/base16-shell ]; then
+  git clone https://github.com/chriskempson/base16-shell.git \
+     ~/.config/base16-shell
 fi 
-if [[ -d ~/gitstuff/zgen ]]; then
-	rm -rf ~/gitstuff/zgen
+if [ ! -d ~/gitstuff/zgen ]; then
+  git clone https://github.com/tarjoilija/zgen ~/gitstuff/zgen
 fi 
-if [[ -d ~/gitstuff/fonts ]]; then
-	rm -rf ~/gitstuff/fonts
+if [ ! -d ~/gitstuff/fonts ]; then
+  git clone https://github.com/powerline/fonts
 fi 
 
-git clone https://github.com/chriskempson/base16-shell.git \
-   ~/.config/base16-shell
-
-mkdir -p ~/.config/nvim/colors
 cp ~/gitstuff/base16-vim/colors/*.vim ~/.config/nvim/colors/
-
 cp init.vim ~/.config/nvim/
-mkdir -p ~/.config/nvim/scripts
 cp spacetab.vim ~/.config/nvim/
-cp coc-settings.json ~/.config/nvim/scripts
+cp coc-settings.json ~/.config/nvim
+
 nvim -c 'PlugInstall' -c 'qa!' --headless
 nvim -c 'CocInstall coc-snippets' -c 'qa!' --headless
 nvim -c 'CocInstall coc-rls' -c 'qa!' --headless
 
 cp alacritty.yml ~/.config/alacritty/alacritty.yml
 
-pushd ~/gitstuff
-git clone https://github.com/tarjoilija/zgen
-git clone https://github.com/powerline/fonts
-popd
-
 mkdir ~/.fonts
 ln -s $HOME/gitstuff/fonts/* $HOME/.fonts/
 
 # build stuff for projects
 sudo pip install meson 
-# fzf from nvim creates a .zshrc
-rm ~/.zshrc
 cp zshrc ~/.zshrc
 
 sudo usermod -aG docker $USER
 
-sudo systemctl enable sshd
 sudo systemctl enable docker
 sudo systemctl start sshd
 

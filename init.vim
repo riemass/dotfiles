@@ -91,7 +91,7 @@ let g:lightline = {
       \ 'component_function': {
       \   'filename': 'LightlineFilename',
       \ },
-\ }
+      \ }
 function! LightlineFilename()
   return expand('%:t') !=# '' ? @% : '[No Name]'
 endfunction
@@ -128,11 +128,11 @@ let g:signify_vcs_list      = ['git']
 
 " from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 if executable('ag')
-	set grepprg=ag\ --nogroup\ --nocolor
+  set grepprg=ag\ --nogroup\ --nocolor
 endif
 if executable('rg')
-	set grepprg=rg\ --no-heading\ --vimgrep
-	set grepformat=%f:%l:%c:%m
+  set grepprg=rg\ --no-heading\ --vimgrep
+  set grepformat=%f:%l:%c:%m
 endif
 
 " Javascript
@@ -172,7 +172,7 @@ let javaScript_fold=0
 " coc.nvim
 " nmap <silent> <C-m> <Plug>(coc-definition)
 " nmap <silent> <C-n> <Plug>(coc-references)
-" nn <silent> <C-,> :call CocActionAsync('doHover')<cr>
+nn <silent> <C-,> :call CocActionAsync('doHover')<cr>
 "
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -233,7 +233,11 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" sorry processor
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+nmap [l <Plug>(coc-diagnostic-next)	
+nmap ]l <Plug>(coc-diagnostic-prev)	
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -457,11 +461,11 @@ noremap <leader>y :w !xsel -ib<cr><cr>
 " noremap <leader>s :Rg
 let g:fzf_layout = { 'down': '~20%' }
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
 
 function! s:list_cmd()
   let base = fnamemodify(expand('%'), ':h:.:S')
@@ -515,7 +519,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " autocmd TerminalOpen * setlocal nospell nonumber nobuflisted textwidth=0 winheight=1
 
 " <leader>= reformats current tange
-nnoremap <leader>cf :'<,'>RustFmtRange<cr>
+autocmd FileType rs nnoremap <leader>cf :'<,'>RustFmtRange<cr>
 
 " <leader>, shows/hides hidden characters
 nnoremap <leader>, :set invlist<cr>
@@ -593,5 +597,28 @@ nnoremap <leader>l :ls<CR>:b<space>
 
 " nvim
 if has('nvim')
-	runtime! plugin/python_setup.vim
+  runtime! plugin/python_setup.vim
 endif
+
+
+
+let $FZF_DEFAULT_OPTS .= '--color=bg:#20242C --border --layout=reverse'
+function! FloatingFZF()
+  let width = float2nr(&columns * 0.9)
+  let height = float2nr(&lines * 0.6)
+  let opts = { 'relative': 'editor',
+        \ 'row': (&lines - height) / 2,
+        \ 'col': (&columns - width) / 2,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal'
+        \}
+
+  let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+  call setwinvar(win, '&winhighlight', 'NormalFloat:TabLine')
+endfunction
+
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+
+
+
