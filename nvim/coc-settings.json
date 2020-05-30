@@ -1,16 +1,16 @@
 {
-	"suggest.timeout": 500,
-	"suggest.snippetIndicator": "►",
-	"languageserver": {
+  "suggest.timeout": 500,
+  "suggest.snippetIndicator": "►",
+  "languageserver": {
 
-		"ccls": {
-			"command": "ccls",
-			"filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
-			"rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
-			"initializationOptions": {
-				"cache": {
-					"directory": ".ccls-cache"
-				},
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache"
+        },
         "clang": {
           "excludeArgs": ["-Isubprojects/*/", "-I.*@sha"]
         },
@@ -28,8 +28,8 @@
         "request": {
           "timeout": 500
         }
-			}
-		},
+      }
+    },
 
     "golang": {
       "command": "gopls",
@@ -41,5 +41,5 @@
       "filetypes": ["rust"],
       "rootPatterns": ["Cargo.toml"]
     }
-	}
+  }
 }
