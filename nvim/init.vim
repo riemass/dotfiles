@@ -9,7 +9,9 @@ call plug#begin()
 " VIM enhancements
 Plug 'justinmk/vim-sneak'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'tjdevries/coc-zsh'
+Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-signify'
+Plug 'tveskag/nvim-blame-line'
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
@@ -18,14 +20,6 @@ Plug 'andymass/vim-matchup'
 Plug 'tomtom/tcomment_vim'
 Plug 'mengelbrecht/lightline-bufferline'
 
-" blingbling
-Plug 'mhinz/vim-grepper'
-Plug 'mhinz/vim-signify'
-Plug 'tveskag/nvim-blame-line'
-
-" coc
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-
 " snippets
 Plug 'honza/vim-snippets'
 
@@ -33,7 +27,6 @@ Plug 'honza/vim-snippets'
 Plug 'chriskempson/base16-vim'
 
 " Fuzzy finder
-" Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -43,15 +36,14 @@ Plug 'rust-lang/rust.vim'
 Plug 'godlygeek/tabular'
 Plug 'rhysd/vim-clang-format'
 Plug 'igankevich/mesonic'
-
 "Plug 'plasticboy/vim-markdown'
 
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 call plug#end()
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-" noremap <C-q> :confirm qall<CR>
 set inccommand=nosplit
 
 " deal with colors
@@ -59,31 +51,27 @@ if !has('gui_running')
   set t_Co=256
 endif
 if (match($TERM, "-256color") != -1) && (match($TERM, "screen-256color") == -1)
-  " screen does not (yet) support truecolor
   set termguicolors
 endif
 " Colors
 set background=dark
-"colorscheme base16-atelier-dune
 try 
   colorscheme base16-google-dark
-  source ~/.vimrc_background
+  "source ~/.vimrc_background
 catch
   colorscheme default
 endtry
 
-hi Normal ctermbg=NONE
-" Get syntax
-syntax on
-
-" Plugin settings
-"
-" visual blame
-nmap <silent> <leader>b :ToggleBlameLine<CR>
-
 " Base16
 let base16colorspace=256
 let g:base16_shell_path="~/dev/others/base16/shell/scripts/"
+
+hi Normal ctermbg=NONE
+syntax on
+
+" Plugin settings
+" visual blame
+nmap <silent> <leader>b :ToggleBlameLine<CR>
 
 " Lightline
 " let g:lightline = { 'colorscheme': 'wombat' }
@@ -138,7 +126,7 @@ endif
 " Javascript
 let javaScript_fold=0
 
-" " Linter
+" Linter
 " " only lint on save
 " let g:ale_lint_on_text_changed = 'never'
 " let g:ale_lint_on_insert_leave = 1
@@ -173,7 +161,7 @@ let javaScript_fold=0
 " nmap <silent> <C-m> <Plug>(coc-definition)
 " nmap <silent> <C-n> <Plug>(coc-references)
 nn <silent> <C-,> :call CocActionAsync('doHover')<cr>
-"
+
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Some servers have issues with backup files, see #649
@@ -327,12 +315,8 @@ nmap <leader>; :Buffers<CR>
 " Quick-save
 nmap <leader>w :w<CR>
 
-" Don't confirm .lvimrc
-let g:localvimrc_ask = 0
-
 " rust.vim
 let g:rustfmt_command = "rustfmt +nightly"
-" let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_clip_command = 'xclip -selection clipboard'
@@ -452,30 +436,29 @@ map H ^
 map L $
 
 " Neat X clipboard integration
-" ,p will paste clipboard into buffer
-" ,c will copy entire buffer into clipboard
-" noremap <leader>p :read !xsel --clipboard --output<cr>
+noremap <leader>p :read !xsel --clipboard --output<cr>
 noremap <leader>y :w !xsel -ib<cr><cr>
 
 " <leader>s for Rg search
-" noremap <leader>s :Rg
-let g:fzf_layout = { 'down': '~20%' }
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
+noremap <leader>s :Rg
 
-function! s:list_cmd()
-  let base = fnamemodify(expand('%'), ':h:.:S')
-  return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
+let $FZF_DEFAULT_OPTS .= '--color=bg:#20242C --border --layout=reverse'
+function! FloatingFZF()
+  let width = float2nr(&columns * 0.9)
+  let height = float2nr(&lines * 0.6)
+  let opts = { 'relative': 'editor',
+        \ 'row': (&lines - height) / 2,
+        \ 'col': (&columns - width) / 2,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal'
+        \}
+
+  let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+  call setwinvar(win, '&winhighlight', 'NormalFloat:TabLine')
 endfunction
 
-" command! -bang -nargs=? -complete=dir Files
-"   \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
-"   \                               'options': '--tiebreak=index'}, <bang>0)
-"
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
 " Open new file adjacent to current file
 " nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -599,26 +582,3 @@ nnoremap <leader>l :ls<CR>:b<space>
 if has('nvim')
   runtime! plugin/python_setup.vim
 endif
-
-
-
-let $FZF_DEFAULT_OPTS .= '--color=bg:#20242C --border --layout=reverse'
-function! FloatingFZF()
-  let width = float2nr(&columns * 0.9)
-  let height = float2nr(&lines * 0.6)
-  let opts = { 'relative': 'editor',
-        \ 'row': (&lines - height) / 2,
-        \ 'col': (&columns - width) / 2,
-        \ 'width': width,
-        \ 'height': height,
-        \ 'style': 'minimal'
-        \}
-
-  let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-  call setwinvar(win, '&winhighlight', 'NormalFloat:TabLine')
-endfunction
-
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-
-
