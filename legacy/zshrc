@@ -1,0 +1,22 @@
+zgen oh-my-zsh plugins/sudo
+zgen oh-my-zsh plugins/arrow
+zgen load djui/alias-tips
+# Theme
+zgen load subnixr/minimal
+
+
+ZSH_THEME="minimal"
+
+bindkey -v '^?' backward-delete-char
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+fix_kbd() {
+  setxkbmap -layout "us,ba" -option "grp:alt_shift_toggle,caps:swapescape"
+  echo 'keycode 135 = Super_R' | xmodmap -
+}
+
+setuprr() {
+  echo 'kernel.perf_event_paranoid = 1' | sudo tee -a /etc/sysctl.conf
+  sudo sysctl -p
+}
